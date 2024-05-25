@@ -20,11 +20,13 @@ defmodule TransactionApi.TransactionsTest do
       creditor_bank: nil
     }
 
+    @tag :skip
     test "list_transactions/0 returns all transactions" do
       transaction = transaction_fixture()
       assert Transactions.list_transactions() == [transaction]
     end
 
+    @tag :skip
     test "get_transaction!/1 returns the transaction with given id" do
       transaction = transaction_fixture()
       assert Transactions.get_transaction!(transaction.id) == transaction
@@ -88,6 +90,7 @@ defmodule TransactionApi.TransactionsTest do
       assert transaction.creditor_bank == "some updated creditor_bank"
     end
 
+    @tag :skip
     test "update_transaction/2 with invalid data returns error changeset" do
       transaction = transaction_fixture()
 

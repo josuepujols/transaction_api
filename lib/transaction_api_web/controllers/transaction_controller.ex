@@ -1,12 +1,11 @@
 defmodule TransactionApiWeb.TransactionController do
-  alias TransactionApiWeb.Server.TransactionSaver
+  alias Server.TransactionSaver
   alias TransactionApi.Transactions
 
   use TransactionApiWeb, :controller
 
   require Logger
 
-  # Endpoint para obtener todas las transacciones en formato CSV
   @spec generate_transactions_csv_link(Plug.Conn.t(), any()) :: Plug.Conn.t()
   def generate_transactions_csv_link(conn, _params) do
     case validate_headers(conn) do
@@ -15,7 +14,6 @@ defmodule TransactionApiWeb.TransactionController do
 
         # Process the file in another process to generate the csv
         # In Background, this way we just return the download link.
-        # Here we can use a GenServer as weel, but as the fact that
         TransactionSaver.save_csv_file(request_id)
 
         download_link = "http://localhost:4000/api/download_csv/#{request_id}"

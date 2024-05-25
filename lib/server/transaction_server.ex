@@ -1,7 +1,9 @@
-defmodule TransactionApiWeb.Server.TransactionSaver do
+defmodule Server.TransactionServer do
   use GenServer
 
   require Logger
+
+  import Shared.DefpTestable
 
   alias TransactionApi.Transactions
 
@@ -55,7 +57,23 @@ defmodule TransactionApiWeb.Server.TransactionSaver do
     Logger.info("Transaction #{id} guardada en la base de datos")
   end
 
-  defp transactions_to_csv(transactions) do
+  @doc """
+  This function is responsible to convert all the transactions
+  that come from the database into a CSV format.
+
+  ## Examples
+
+    iex> data = [%{debtor_name: "Jose", debtor_id: "D789"}]
+    ...> csv = Server.TransactionServer.transactions_to_csv(data) |> IO.iodata_to_binary()
+    ...> String.contains?(csv, "Jose") && String.contains?(csv, "D789")
+    true
+
+    iex> data = []
+    ...> Server.TransactionServer.transactions_to_csv(data) |> length
+    0
+  """
+
+  defp_testable transactions_to_csv(transactions) do
     transactions
     |> Enum.map(&Map.values(&1))
     |> CSV.encode()
