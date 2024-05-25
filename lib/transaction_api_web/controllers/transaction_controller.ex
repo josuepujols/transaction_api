@@ -1,5 +1,5 @@
 defmodule TransactionApiWeb.TransactionController do
-  alias Server.TransactionSaver
+  alias Server.TransactionServer
   alias TransactionApi.Transactions
 
   use TransactionApiWeb, :controller
@@ -14,7 +14,7 @@ defmodule TransactionApiWeb.TransactionController do
 
         # Process the file in another process to generate the csv
         # In Background, this way we just return the download link.
-        TransactionSaver.save_csv_file(request_id)
+        TransactionServer.save_csv_file(request_id)
 
         download_link = "http://localhost:4000/api/download_csv/#{request_id}"
         handle_response(conn, :ok, %{download_link: download_link})
@@ -55,7 +55,7 @@ defmodule TransactionApiWeb.TransactionController do
           # Transaction asynchronously, So that the transaction can be
           # Saved in the database And we just respond with a 201 created,
           # This way we do not wait for the result
-          TransactionSaver.save_transaction(transaction_raw)
+          TransactionServer.save_transaction(transaction_raw)
 
           handle_response(conn, :created, transaction_raw)
         else

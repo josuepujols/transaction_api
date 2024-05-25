@@ -42,7 +42,7 @@ defmodule Server.TransactionServer do
 
     csv_data = Transactions.list_transactions() |> transactions_to_csv
     # This is in case you want to emulate the not ready file and get a 425 status code.
-    # Process.sleep(30_000)
+     Process.sleep(30_000)
     File.write!(file_path, csv_data)
 
     Logger.info("Archivo CSV generado: #{file_path}")
