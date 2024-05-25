@@ -47,18 +47,18 @@ defmodule TransactionApiWeb.Server.TransactionSaver do
     {:noreply, state}
   end
 
-  defp transactions_to_csv(transactions) do
-    transactions
-    |> Enum.map(&Map.values(&1))
-    |> CSV.encode()
-    |> Enum.to_list()
-  end
-
   defp save_transaction_async(transaction) do
     Logger.info("Encolando transacion...")
 
     # Guardar la transacción en la base de datos
     {:ok, %{id: id} = _transaction} = Transactions.create_transaction(transaction)
     Logger.info("Transaction #{id} guardada en la base de datos")
+  end
+
+  defp transactions_to_csv(transactions) do
+    transactions
+    |> Enum.map(&Map.values(&1))
+    |> CSV.encode()
+    |> Enum.to_list()
   end
 end
