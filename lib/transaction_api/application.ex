@@ -15,7 +15,8 @@ defmodule TransactionApi.Application do
       # Start a worker by calling: TransactionApi.Worker.start_link(arg)
       # {TransactionApi.Worker, arg},
       # Start to serve requests, typically the last entry
-      TransactionApiWeb.Endpoint
+      TransactionApiWeb.Endpoint,
+      TransactionApiWeb.Server.TransactionSaver
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
