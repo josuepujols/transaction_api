@@ -29,6 +29,10 @@ Ahora puedes visitar [`localhost:4000`](http://localhost:4000) desde tu navegado
 
 ## Detalles técnicos
 
+* Toda la logica relacionada a los puntos tecnicos solicitados en el reto se encuentran desarrollados en un solo controlador: lib/transaction_api_web/transaction_controller.ex este file contiene los 3 endpoints requeridos para cumplir con los detalles tecnicos de la prueba.
+
+* Para ejecutar las tareas de forma asincrona se llevo a cabo uno de los features que nos prevee elixir; GenServers, para este ejercio cree un GenServer que ejecutara todas las tareas asincronas en otro proceso haciendo uso de la concurrencia y de esta forma no tenemos que esperar un resultado para darle un respuesta al usuario, mas bien le respondemos y nos quedamos procesando las tareas en otro proceso de manera asincrona, este GenServer este en: lib/server/transaction_server.ex
+
 * Esta aplicación fue realizada utilizando todos los estándares generales que se utilizan al programar en Elixir, tanto la convención de nomenclatura como los estándares de codificación literal.
 
 * En términos generales la aplicación cuenta con un contexto llamado **Transacciones** que se encarga de gestionar todas las operaciones con la base de datos. Hacemos uso de esto en el único controlador que tenemos en la aplicación que contiene todos los puntos finales solicitados en el ejercicio.
