@@ -10,7 +10,7 @@ defmodule TransactionApiWeb.TransactionController do
   def generate_transactions_csv_link(conn, _params) do
     case validate_headers(conn) do
       :ok ->
-        request_id = generate_request_id()
+        request_id = 16 |> :crypto.strong_rand_bytes() |> Base.encode16(case: :lower)
 
         # Process the file in another process to generate the csv
         # In Background, this way we just return the download link.
@@ -55,6 +55,7 @@ defmodule TransactionApiWeb.TransactionController do
           # Transaction asynchronously, So that the transaction can be
           # Saved in the database And we just respond with a 201 created,
           # This way we do not wait for the result
+          Logger.info("Encolando transacion...")
           TransactionServer.save_transaction(transaction_raw)
 
           handle_response(conn, :created, transaction_raw)
@@ -101,9 +102,5 @@ defmodule TransactionApiWeb.TransactionController do
     |> put_status(status_code)
     |> json(data)
     |> halt()
-  end
-
-  defp generate_request_id() do
-    :crypto.strong_rand_bytes(16) |> Base.encode16(case: :lower)
   end
 end

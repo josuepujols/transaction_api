@@ -1,4 +1,9 @@
 defmodule Server.TransactionServer do
+  @moduledoc """
+  This module is created to handle the asynchronous operations
+  with this module we are able to execute tasks in another
+  process and we don;t have to wait for the reusult to respond.
+  """
   use GenServer
 
   require Logger
@@ -31,7 +36,8 @@ defmodule Server.TransactionServer do
 
   @impl true
   def handle_cast({:save_transaction, transaction}, state) do
-    save_transaction_async(transaction)
+    {:ok, %{id: id} = _transaction} = Transactions.create_transaction(transaction)
+    Logger.info("Transaction #{id} guardada en la base de datos")
     {:noreply, state}
   end
 
@@ -47,14 +53,6 @@ defmodule Server.TransactionServer do
 
     Logger.info("Archivo CSV generado: #{file_path}")
     {:noreply, state}
-  end
-
-  defp save_transaction_async(transaction) do
-    Logger.info("Encolando transacion...")
-
-    # Guardar la transacción en la base de datos
-    {:ok, %{id: id} = _transaction} = Transactions.create_transaction(transaction)
-    Logger.info("Transaction #{id} guardada en la base de datos")
   end
 
   @doc """

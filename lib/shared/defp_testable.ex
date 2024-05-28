@@ -1,4 +1,9 @@
 defmodule Shared.DefpTestable do
+  @moduledoc """
+  This macro is used to become private functions testable
+  this way we don't have to define the functions public
+  to do doctests.
+  """
   defmacro defp_testable(head, body \\ nil) do
     if Mix.env() == :test do
       quote do
